@@ -53,3 +53,14 @@ This api will give you all the dishes currentlt in order and will be shown on th
 GET /dishes/in_order
 ```
 
+### Setting up Predicted values for each dish
+
+```sh
+PUT /dishes/:id
+```
+	
+```javascript
+{ 
+ "predicted":"5"
+}
+```
