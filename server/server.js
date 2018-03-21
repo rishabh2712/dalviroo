@@ -1,12 +1,14 @@
 let express = require('express')
 let bodyParser = require('body-parser')
-var dbConfig = require('./config/db.config.js')
-var mongoose = require('mongoose')
+let dbConfig = require('./config/db.config.js')
+let mongoose = require('mongoose')
 let app = express()
-var rp = require('request-promise')
-const io = require('socket.io')()
-const fetch = require('node-fetch')
-var path = require('path')
+let rp = require('request-promise')
+let io = require('socket.io')()
+let fetch = require('node-fetch')
+let path = require('path')
+let url = require('./config/api.config.js').url
+const socketport = 3050
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }))
 
@@ -21,9 +23,9 @@ app.use(function(req, res, next) {
 
 require('./routes/dish.routes.js')(app)
 
-// app.use(express.static(path.join(__dirname, '../build')));
-app.get('/', function (req, res) {
-  // res.sendFile(path.join(__dirname, '../build', 'index.html'));
+app.use(express.static(path.join(__dirname, '../build')));
+app.get('/dalviroo', function (req, res) {
+  res.sendFile(path.join(__dirname, '../build', 'index.html'));
 });
 // listen for requests
 app.listen(8000, function(){
@@ -44,9 +46,9 @@ mongoose.connection.once('open', function() {
 })
 
 
-const port = 3050
-io.listen(port)
-console.log('listening on port ', port)
+
+io.listen(socketport)
+console.log('Socket listening on port ', socketport)
 
 io.on("connection", socket => {
   console.log("New client connected"), setInterval(
@@ -58,19 +60,20 @@ io.on("connection", socket => {
 
 const getApiAndEmit = async socket => {
   try {
-    const res = await rp({uri: 'http://localhost:8000/dishes/in_order',  json: true})
+    let url1 = url + 'in_order'
+    const res = await rp({uri: url1,  json: true})
     socket.emit("order_in_pipeline", res)
   } catch (error) {
-    console.error(`Error: ${error.code}`);
+    console.error(`Error: ${error}`);
   }
 }
 
 io.on('connection', (client) => {
   client.on('subscribeToDone', (data) => {
     console.log('client is subscribing to done', data)
-    let url ='http://localhost:8000/dishes/'+data.id+'/order_done'
+    let uri = url+data.id+'/order_done'
     let body = JSON.stringify({order_quantity_complete: data.done})
-    rp({uri: url,  method: 'PUT', body:{order_quantity_complete: data.done}, json:true})
+    rp({uri: uri,  method: 'PUT', body:{order_quantity_complete: data.done}, json:true})
     .then((res) => console.log(res))
     .catch(function (err) {
       console.log(err)

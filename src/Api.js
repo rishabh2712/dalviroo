@@ -14,7 +14,7 @@ function subscribeToDone(data) {
 export const generateReports = () => {
   var xhr = new XMLHttpRequest()
   console.log(xhr)
-  xhr.open('GET','http://localhost:8000/dishes/report', true);
+  xhr.open('GET','http://localhost:8000/api/dishes/report', true);
   xhr.responseType = 'arraybuffer'
   xhr.onload = function () {
     if (this.status === 200) {
