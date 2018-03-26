@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
-import {fetchDishes} from './actions'
+import {fetchDishes, postDish} from './actions'
 import AddNewDish from './AddNewDish';
 import DishesList from './DishesList'
 
@@ -19,10 +19,15 @@ class Dishes extends React.Component {
     this.props.fetchDishes()
  }
 
+ componentWillReceiveProps(nextProps) {
+    
+  }
+
+
   render() {
     return (
       <DishesWrapper>
-        <AddNewDish />
+        <AddNewDish addNewDish={this.props.postDish} />
         <DishesList />
       </DishesWrapper>
     )
@@ -31,7 +36,8 @@ class Dishes extends React.Component {
 
 const mapDispatchToProps = (dispatch) =>  {
   return {
-    fetchDishes: (evt) => dispatch(fetchDishes())
+    fetchDishes: (evt) => dispatch(fetchDishes()),
+    postDish: (dish) => dispatch(postDish(dish))
   }
 }
 

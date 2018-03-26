@@ -16,7 +16,7 @@ export default function configureStore(initialState = {}, history) {
     const store = createStore(
       createReducer(),
       initialState,
-      applyMiddleware(middlewares)
+      compose(applyMiddleware(middlewares))
     );
 
     return store

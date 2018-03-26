@@ -2,9 +2,9 @@ import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import {MuiThemeProvider, getMuiTheme} from 'material-ui/styles'
 
-export default class Modal extends React.Component {
+export default class DialogExampleSimple extends React.Component {
   state = {
     open: false,
   };
@@ -28,26 +28,29 @@ export default class Modal extends React.Component {
         label="Submit"
         primary={true}
         keyboardFocused={true}
-        onClick={this.handleClose}
+        onClick={this.props.onSubmit}
       />,
-    ];
+    ]
 
     const childrenWithProps = React.Children.map(this.props.children, (child) => React.cloneElement(child))
+
     return (
       <div>
-       <MuiThemeProvider>
-        <RaisedButton label={this.props.label} onClick={this.handleOpen} />
-        <Dialog
-          title={this.props.title}
-          actions={actions}
-          modal={false}
-          open={this.state.open}
-          onRequestClose={this.handleClose}
-        >
-          {childrenWithProps}
-        </Dialog>
-      </MuiThemeProvider>
-    </div>
+        <MuiThemeProvider muiTheme={getMuiTheme()}>
+          <RaisedButton label={this.props.label} onClick={this.handleOpen} />
+        </MuiThemeProvider>
+        <MuiThemeProvider muiTheme={getMuiTheme()}>
+          <Dialog
+            title={this.props.title}
+            actions={actions}
+            modal={false}
+            open={this.state.open}
+            onRequestClose={this.handleClose}
+          >
+            {childrenWithProps}
+          </Dialog>
+        </MuiThemeProvider>
+      </div>
     );
   }
 }
