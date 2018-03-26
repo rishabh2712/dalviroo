@@ -4,7 +4,7 @@ import {
   LOAD_APP_SUCCESS,
   LOAD_APP,
   LOAD_APP_ERROR,
-} from './constants';
+} from '../constants';
 
 // The initial state of the App
 const initialState = {
@@ -19,19 +19,19 @@ const initialState = {
 function appReducer(state = initialState, action) {
   switch (action.type) {
     case LOAD_APP:
-      return state
-        .set('loading', true)
-        .set('error', false)
-        .setIn(['userData', 'APPitories'], false);
+      return Object.assign({}, state, {
+        loading: true,
+      })
     case LOAD_APP_SUCCESS:
-      return state
-        .setIn(['userData', 'APPitories'], action.APP)
-        .set('loading', false)
-        .set('currentUser', action.username);
+      return Object.assign({}, state, {
+        loading: false,
+        error: false
+      })
     case LOAD_APP_ERROR:
-      return state
-        .set('error', action.error)
-        .set('loading', false);
+      return Object.assign({}, state, {
+        loading: false,
+        error: true
+      })
     default:
       return state;
   }

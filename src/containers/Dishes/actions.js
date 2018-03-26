@@ -8,11 +8,10 @@ import { apiUrl } from '../../config.js'
 import { buildUrl } from '../../utils/apiHelper.js'
 
 
-export function fetchDishes(params) {
-  console.log(buildUrl(apiUrl, params))
+export function fetchDishes() {
   return {
     [CALL_API]: {
-      endpoint: buildUrl(apiUrl, params),
+      endpoint: apiUrl,
       method: 'GET',
       types: [LOAD_DISHES, LOAD_DISHES_SUCCESS, LOAD_DISHES_ERROR]
     }

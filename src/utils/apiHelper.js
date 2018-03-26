@@ -1,7 +1,7 @@
 import URL from 'url-parse'
 
 export function buildUrl(baseUrl, endpoint, queryObj = {}) {
-  let url = URL(baseUrl + endpoint, true)
+  let url = URL(baseUrl + endpoint, false)
   if(queryObj === null) {
     return url.toString()
   }

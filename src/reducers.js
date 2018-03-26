@@ -1,13 +1,10 @@
-import { combineReducers } from 'redux-immutable';
+import { combineReducers } from 'redux';
 import { LOCATION_CHANGE } from 'react-router-redux';
 
-import dishes from './containers/Dishes/reducer'
-import appReducer from './containers/App/reducer'
+import {dishesReducer} from './containers/Dishes/reducers'
+import appReducer from './containers/App/reducers'
 
-import { fromJS } from 'immutable';
-
-
-const initialState = fromJS(window.__INITIAL_STATE__);
+const initialState = {}
 
 function routeReducer(state = initialState, action) {
   switch (action.type) {
@@ -23,6 +20,6 @@ export default function createReducer() {
   return combineReducers({
     route: routeReducer,
     app: appReducer,
-    dishes: dishes,
+    dishesReducer,
   })
 }

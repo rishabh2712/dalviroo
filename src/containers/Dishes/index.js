@@ -2,6 +2,12 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 import {fetchDishes} from './actions'
+import AddNewDish from './AddNewDish';
+
+const DishesWrapper = styled.div`
+  margin-top: 50px;
+  width: 70%;
+`;
 
 class Dishes extends React.Component {
   constructor(props) {
@@ -13,10 +19,10 @@ class Dishes extends React.Component {
  }
 
   render() {
-    console.log("mounted");
-    console.log(this.props)
     return (
-      <div></div>
+      <DishesWrapper>
+        <AddNewDish />
+      </DishesWrapper>
     )
   }
 }

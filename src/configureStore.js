@@ -13,15 +13,11 @@ export default function configureStore(initialState = {}, history) {
       apiMiddleware
     )
 
-      const store = createStore(
-        createReducer(),
-        initialState,
-        applyMiddleware(middlewares)
-      );
-      return store
+    const store = createStore(
+      createReducer(),
+      initialState,
+      applyMiddleware(middlewares)
+    );
+
+    return store
 }
-//
-// export default function configureStore(initialState) {
-//   const store = createStore(rootReducer, initialState, applyMiddleware(apiMiddleware, thunk))
-//   return store;
-// }
