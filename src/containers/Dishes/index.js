@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 import {fetchDishes} from './actions'
 import AddNewDish from './AddNewDish';
+import DishesList from './DishesList'
 
 const DishesWrapper = styled.div`
   margin-top: 50px;
@@ -22,6 +23,7 @@ class Dishes extends React.Component {
     return (
       <DishesWrapper>
         <AddNewDish />
+        <DishesList />
       </DishesWrapper>
     )
   }
