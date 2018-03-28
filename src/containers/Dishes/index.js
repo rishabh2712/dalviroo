@@ -10,6 +10,7 @@ import Spinner from '../../components/Spinner'
 import RaisedButton from 'material-ui/RaisedButton';
 import {MuiThemeProvider, getMuiTheme} from 'material-ui/styles'
 import Modal from  '../../components/Modal'
+import CheckoutCart from './CheckoutCart'
 import ConfirmAction from '../../components/ConfirmAction'
 
 const DishesWrapper = styled.div`
@@ -32,6 +33,11 @@ class Dishes extends React.Component {
 
 componentDidMount() {
   this.props.fetchDishes()
+  document.addEventListener("keydown", function (e) {
+    if (this.state.open && (e.keyCode === 27)) {
+      this.handleClose()
+    }
+  }.bind(this))
 }
 
 reportAction(type, id) {
@@ -53,14 +59,19 @@ addToCart(dish) {
 }
 
 deleteFromCart(dish) {
-  if(this.state.cart.length > 0) {
+  if(this.state.cart.length > 1) {
     let dishItems = this.state.cart.filter(item => item._id === dish._id).splice(1)
-    console.log(dishItems)
     let updateItems = this.state.cart.filter(item => item._id != dish._id).concat(dishItems)
-    console.log(updateItems)
     this.setState({
       cart : updateItems
     })
+  } else if (this.state.cart.length === 1) {
+    let dishItems = this.state.cart.filter(item => item._id === dish._id).splice(1)
+    let updateItems = this.state.cart.filter(item => item._id != dish._id).concat(dishItems)
+    this.setState({
+      cart : updateItems
+    })
+    this.handleClose()
   }
 }
 
@@ -79,6 +90,9 @@ getModalContent(type) {
     case 'Edit':
       return <AddNewDish mode="Edit" postDish={this.props.postDish} handleClose={this.handleClose} dish={this.props.dishes.dishes.filter(dish => dish._id === this.state.id_in_action)[0]}/>
       break;
+    case 'CheckoutCart':
+      return <CheckoutCart cart={this.state.cart} addToCart={this.addToCart} deleteFromCart={this.deleteFromCart}/>
+      break;
     default:
   }
 }
@@ -93,6 +107,7 @@ getLabel() {
  }
 }
 render() {
+  console.log(this.state)
   let label = this.getLabel()
   return (
     <DishesWrapper>
@@ -107,7 +122,7 @@ render() {
         {
           this.state.cart.length ?
           <MuiThemeProvider muiTheme={getMuiTheme()}>
-            <RaisedButton
+            <RaisedButton onClick={() => this.reportAction('CheckoutCart', null)}
                backgroundColor="#FBC02D"
                icon={<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
                    <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/>

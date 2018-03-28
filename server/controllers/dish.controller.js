@@ -5,12 +5,17 @@ exports.create = function(req, res) {
     // Create and Save a new Dish
     console.log(req.body)
     if(!req.body.name) {
-           return res.status(400).send({message: "Dish can not be empty"});
-       }
+        return res.status(400).send({message: "Dish can not be empty"});
+    } else if (!req.body.description) {
+      return res.status(400).send({message: "Dish can not be with empty description"});
+    } else if (!req.body.description) {
+      return res.status(400).send({message: "Dish can not be free"});
+    }
        var dish = new Dish({name: req.body.name,
          created_till_now: req.body.created_till_now != undefined ?  req.body.created_till_now : 0,
          predicted: req.body.predicted != undefined ?  req.body.predicted : 0,
          description: req.body.description,
+         price: req.body.price,
          quantity_in_progress: req.body.quantity_in_progress != undefined ?  req.body.quantity_in_progress : 0,
        });
 
@@ -112,6 +117,7 @@ exports.dish_update = function(req, res) {
           dish.created_till_now = req.body.hasOwnProperty('created_till_now') ? req.body.created_till_now : dish.created_till_now
           dish.quantity_in_progress = req.body.hasOwnProperty('quantity_in_progress') ? req.body.quantity_in_progress : dish.quantity_in_progress
           dish.description = req.body.hasOwnProperty('description') ? req.body.description : dish.description
+          dish.price = req.body.price.hasOwnProperty('price') ? req.body.price : dish.price
           dish.save(function(err, data){
               if(err) {
                   res.status(500).send({message: "Could not update dish with id " + req.params.dishId})

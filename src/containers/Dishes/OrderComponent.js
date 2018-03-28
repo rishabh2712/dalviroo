@@ -12,9 +12,9 @@ export default class OrderComponent extends React.Component {
   constructor(props) {
    super(props)
    this.cart=[]
-   this.state = {
-     counter: 0,
-   }
+   this.state = Object.assign({},{
+     counter: 0
+   },this.props)
    this.incrementCounter = this.incrementCounter.bind(this)
    this.decrementCounter = this.decrementCounter.bind(this)
  }

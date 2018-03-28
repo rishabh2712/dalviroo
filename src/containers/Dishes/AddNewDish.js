@@ -15,8 +15,8 @@ class AddNewDish extends React.Component {
   constructor(props) {
    super(props)
    this.state = Object.assign({},{
-     name:"",description:"", predicted: 0,
-     nameErrorText:"", descriptionErrorText:''
+     name:"",description:"", predicted: null, price: null,
+     nameErrorText:"", descriptionErrorText:'', priceErrorText:''
    }, this.props.dish)
    this.handleChange = this.handleChange.bind(this)
    this.postDish =  this.postDish.bind(this)
@@ -39,6 +39,14 @@ validateForm(obj) {
       descriptionErrorText : "This field cant be left empty"
     })
     return false
+  } else if (obj.price === null) {
+    this.setState({
+      priceErrorText : "This field cant be left empty"
+    })
+  } else if (obj.price <=0) {
+      this.setState({
+        priceErrorText : "Price needs to be for real!!!!"
+    })
   }
   return true
 }
@@ -50,7 +58,8 @@ postDish() {
     this.props.postDish(Object.assign({},{
       name: this.state.name,
       description: this.state.description,
-      predicted: parseInt(this.state.predicted)
+      predicted: parseInt(this.state.predicted),
+      price: parseInt(this.state.price)
     }), method, url)
   }
 }
@@ -66,6 +75,9 @@ postDish() {
       </MuiThemeProvider>
       <MuiThemeProvider muiTheme={getMuiTheme()}>
         <TextField type="number" floatingLabelText="Predicted orders" name="predicted" value={this.state.predicted} onChange={this.handleChange}/><br/>
+      </MuiThemeProvider>
+      <MuiThemeProvider muiTheme={getMuiTheme()}>
+        <TextField type="number" floatingLabelText="Price" name="price" value={this.state.price} onChange={this.handleChange}/><br/>
       </MuiThemeProvider>
       <FlatButton
         label="Cancel"
