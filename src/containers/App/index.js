@@ -11,9 +11,8 @@ import './bootstrap.css'
 
 
 const AppWrapper = styled.div`
-  height: inherit;
-  height: inherit;
   background-color: #e8e8e8;
+  height: inherit;
 `;
 
  const AppContainer = styled.div`

@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import dishes from './dishes'
-import addDish from './addDish'
+import fetchDishReducer from './dishes'
+import changeDishReducer from './changeDish'
 
-export const dishesReducer = combineReducers({dishes, addDish})
+export const dishesReducer = combineReducers({fetchDishReducer, changeDishReducer})

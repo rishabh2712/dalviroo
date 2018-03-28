@@ -3,6 +3,7 @@ const json2csv = require('json2csv').Parser
 
 exports.create = function(req, res) {
     // Create and Save a new Dish
+    console.log(req.body)
     if(!req.body.name) {
            return res.status(400).send({message: "Dish can not be empty"});
        }

@@ -5,7 +5,8 @@ let dish_schema = mongoose.Schema({
     created_till_now: Number,
     description: String,
     predicted: Number,
-    quantity_in_progress: Number
+    quantity_in_progress: Number,
+    price: Number
 }, {
     timestamps: true
 });

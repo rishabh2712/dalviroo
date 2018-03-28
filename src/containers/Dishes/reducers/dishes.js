@@ -1,35 +1,33 @@
 import {
-  LOAD_DISHES_SUCCESS,
-  LOAD_DISHES,
-  LOAD_DISHES_ERROR,
+  LOAD_DISHES
 } from '../constants';
-
+import { handle } from 'redux-pack'
 // The initial state of the App
 const initialState = {
-  loading: false,
+  requesting: false,
   error: false,
   dishes: [],
 }
 
-function dishes(state = initialState, action) {
-  switch (action.type) {
+export function fetchDishReducer(state = initialState, action) {
+  const { type, payload } = action
+  switch (type) {
     case LOAD_DISHES:
-    return Object.assign({}, state, {
-      loading: true,
-    })
-    case LOAD_DISHES_SUCCESS:
-      return Object.assign({}, state, {
-        loading: false,
-        dishes: action.payload
-      })
-    case LOAD_DISHES_ERROR:
-    return Object.assign({}, state, {
-      loading: false,
-      error: true
-    })
+      return handle(state, action, {
+        start: prevState => ({
+          ...prevState,
+          requesting: true,
+          error: null,
+          dishes: []
+        }),
+        finish: prevState => ({ ...prevState, requesting: false }),
+        failure: prevState => ({ ...prevState, error:true, success: false, dishes: []}),
+        success: prevState => ({ ...prevState, error: false, success:true, dishes: payload }),
+      });
     default:
       return state;
   }
 }
 
-export default dishes;
+
+export default fetchDishReducer;
