@@ -1,7 +1,8 @@
 import openSocket from 'socket.io-client'
+import {apiUrl} from '../../config.js'
 const fetch = require('node-fetch')
 
-const socket = openSocket('http://localhost:3050')
+const socket = openSocket('http://139.59.19.181:3050')
 
 function subscribeToOrder(cb) {
   socket.on('order_in_pipeline', data => cb(null, data))
@@ -13,8 +14,7 @@ function subscribeToDone(data) {
 
 export const generateReports = () => {
   var xhr = new XMLHttpRequest()
-  console.log(xhr)
-  xhr.open('GET','http://localhost:8000/api/dishes/report', true);
+  xhr.open('GET',apiUrl+'/report', true);
   xhr.responseType = 'arraybuffer'
   xhr.onload = function () {
     if (this.status === 200) {

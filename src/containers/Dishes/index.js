@@ -153,8 +153,6 @@ getLabel() {
  }
 }
 render() {
-  console.log(this.state)
-  console.log(this.props)
   let label = this.getLabel()
   return (
     <DishesWrapper>

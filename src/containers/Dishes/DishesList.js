@@ -48,7 +48,7 @@ class DishesList extends React.Component {
       <div className="container">
         <div className="row">
           {this.props.dishes.map((dish, key) =>
-            <div className="col-xs-12 col-sm-6 col-md-4" key={key}>
+            <div className="col-xs-12 col-sm-6 col-md-4" key={key} style={{marginBottom: '15px'}}>
               <CardClass>
                 <MuiThemeProvider>
                   <Card>

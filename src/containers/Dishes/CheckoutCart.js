@@ -45,14 +45,20 @@ componentWillReceiveProps(nextProps) {
       <FlexEnd>
         {this.props.isRequesting ?  <CircularProgress /> : <div></div>}
       </FlexEnd>
-      <div className="col-xs-12 col-sm-6 col-md-4">
+      <div style={{
+        display: 'flex',
+        flexWrap:'wrap'
+      }}>
         {cart.map((item, key) =>
-        <Card style={{margin: '10px 0px'}} key={key}>
+        <Card style={{margin: '10px 10px'}} key={key}>
             <CardHeader
               title={item.dish.name}
               subtitle={item.dish.description}
               actAsExpander={true}
             />
+            <CardText>
+              Price: {item.dish.price}
+            </CardText>
             <CardText>
               Quantity:
               <OrderComponent counter={item.counter} addToCart={this.props.addToCart} deleteFromCart={this.props.deleteFromCart} dish={item.dish}/>

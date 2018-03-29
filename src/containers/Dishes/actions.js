@@ -64,7 +64,6 @@ export function deleteDish(id) {
     promise: postApiPromise({}, url, 'DELETE'),
     meta: {
       onSuccess: (result, getState) => {
-        console.log(result)
         fetchDishes()
       }
     }

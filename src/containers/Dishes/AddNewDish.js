@@ -32,7 +32,7 @@ handleChange(e) {
 
 componentWillReceiveProps(nextProps) {
   if(nextProps.success) {
-    this.props.fetchDishes()
+    this.props.handleClose()
   }
 }
 
