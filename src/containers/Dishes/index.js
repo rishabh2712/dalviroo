@@ -101,7 +101,7 @@ getModalContent(type) {
       return <AddNewDish mode="Add"
               handleClose={this.handleClose}
               postDish={this.props.postDish}
-              getDishes={this.props.getDishes}
+              fetchDishes={this.props.fetchDishes}
               isRequesting = {this.props.addDishReducer.requesting}
               error={this.props.addDishReducer.error}
               success={this.props.addDishReducer.success}/>

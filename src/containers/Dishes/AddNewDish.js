@@ -18,7 +18,7 @@ class AddNewDish extends React.Component {
    super(props)
    this.state = Object.assign({},{
      name:"",description:"", predicted: 0, price: null, priceErrorText: '',
-     nameErrorText:"", descriptionErrorText:'', isRequesting: false
+     nameErrorText:"", descriptionErrorText:''
    }, this.props.dish)
    this.handleChange = this.handleChange.bind(this)
    this.postDish =  this.postDish.bind(this)
@@ -31,19 +31,8 @@ handleChange(e) {
 }
 
 componentWillReceiveProps(nextProps) {
-  if(nextProps.isRequesting) {
-    this.setState({
-      isRequesting: nextProps.isRequesting
-    })
-  }
   if(nextProps.success) {
-    setTimeout(function(){
-      this.setState({
-        isRequesting: nextProps.isRequesting
-      })
-      this.props.handleClose()
-     }, 3000);
-    this.props.getDishes()
+    this.props.fetchDishes()
   }
 }
 
@@ -85,7 +74,7 @@ postDish() {
    return (
     <div>
       <FlexEnd>
-        {this.state.isRequesting ?  <CircularProgress /> : <div></div>}
+        {this.props.isRequesting ?  <CircularProgress /> : <div></div>}
       </FlexEnd>
       <MuiThemeProvider muiTheme={getMuiTheme()}>
         <TextField errorText={this.state.nameErrorText} fullWidth={true} floatingLabelText="Name of the dish" name="name" value={this.state.name} onChange={this.handleChange} /><br />
