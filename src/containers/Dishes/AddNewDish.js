@@ -5,6 +5,8 @@ import {MuiThemeProvider, getMuiTheme} from 'material-ui/styles'
 import Divider from 'material-ui/Divider'
 import TextField from 'material-ui/TextField';
 import {addNewDish} from './actions'
+import FlexEnd from '../../components/FlexComponents/FlexEnd'
+import CircularProgress from 'material-ui/CircularProgress';
 
 const AddWrapper = styled.div`
   width: 100%;
@@ -15,8 +17,8 @@ class AddNewDish extends React.Component {
   constructor(props) {
    super(props)
    this.state = Object.assign({},{
-     name:"",description:"", predicted: null, price: null,
-     nameErrorText:"", descriptionErrorText:'', priceErrorText:''
+     name:"",description:"", predicted: 0, price: null, priceErrorText: '',
+     nameErrorText:"", descriptionErrorText:'', isRequesting: false
    }, this.props.dish)
    this.handleChange = this.handleChange.bind(this)
    this.postDish =  this.postDish.bind(this)
@@ -27,6 +29,24 @@ handleChange(e) {
     [e.target.name] : e.target.value
   })
 }
+
+componentWillReceiveProps(nextProps) {
+  if(nextProps.isRequesting) {
+    this.setState({
+      isRequesting: nextProps.isRequesting
+    })
+  }
+  if(nextProps.success) {
+    setTimeout(function(){
+      this.setState({
+        isRequesting: nextProps.isRequesting
+      })
+      this.props.handleClose()
+     }, 3000);
+    this.props.getDishes()
+  }
+}
+
 
 validateForm(obj) {
   if(obj.name === "") {
@@ -39,14 +59,11 @@ validateForm(obj) {
       descriptionErrorText : "This field cant be left empty"
     })
     return false
-  } else if (obj.price === null) {
+  } else if (obj.price <= 0 || obj.price === null ) {
     this.setState({
-      priceErrorText : "This field cant be left empty"
+      priceErrorText : "Price have to be real!"
     })
-  } else if (obj.price <=0) {
-      this.setState({
-        priceErrorText : "Price needs to be for real!!!!"
-    })
+    return false
   }
   return true
 }
@@ -67,6 +84,9 @@ postDish() {
    let label = this.props.mode === 'edit' ? 'Edit Details' : 'Add new dish'
    return (
     <div>
+      <FlexEnd>
+        {this.state.isRequesting ?  <CircularProgress /> : <div></div>}
+      </FlexEnd>
       <MuiThemeProvider muiTheme={getMuiTheme()}>
         <TextField errorText={this.state.nameErrorText} fullWidth={true} floatingLabelText="Name of the dish" name="name" value={this.state.name} onChange={this.handleChange} /><br />
       </MuiThemeProvider>
@@ -77,7 +97,7 @@ postDish() {
         <TextField type="number" floatingLabelText="Predicted orders" name="predicted" value={this.state.predicted} onChange={this.handleChange}/><br/>
       </MuiThemeProvider>
       <MuiThemeProvider muiTheme={getMuiTheme()}>
-        <TextField type="number" floatingLabelText="Price" name="price" value={this.state.price} onChange={this.handleChange}/><br/>
+        <TextField type="number" errorText={this.state.priceErrorText} floatingLabelText="Price" name="price" value={this.state.price} onChange={this.handleChange}/><br/>
       </MuiThemeProvider>
       <FlatButton
         label="Cancel"

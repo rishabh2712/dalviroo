@@ -39,7 +39,11 @@ render() {
     return (
       <TableWrapper>
         <MuiThemeProvider>
-          <Table onRowSelection={this.handleRowSelection}>
+          <Table onRowSelection={this.handleRowSelection}
+          displayBorder={true}
+          stripedRows={true}
+          showRowHover={true}
+          showCheckboxes={false}>
             <TableHeader>
               <TableRow>
                 <TableHeaderColumn>ID</TableHeaderColumn>
@@ -59,7 +63,11 @@ render() {
                     <TableRowColumn>{datum.quantity_in_progress}</TableRowColumn>
                     <TableRowColumn>{datum.created_till_now}</TableRowColumn>
                     <TableRowColumn>{datum.predicted}</TableRowColumn>
-                    <TableRowColumn><RaisedButton label="Done" fullWidth={true} primary = {true} onClick={() => this.subscribeToDone({id: datum._id, done: datum.quantity_in_progress})}/></TableRowColumn>
+                    <MuiThemeProvider>
+                      <TableRowColumn>
+                        <RaisedButton label="Done" onClick={() => subscribeToDone({id: datum._id, done: datum.quantity_in_progress})}/>
+                      </TableRowColumn>
+                    </MuiThemeProvider>
                   </TableRow>
                 )}
               )}

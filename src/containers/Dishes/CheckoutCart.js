@@ -1,27 +1,29 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import FlatButton from 'material-ui/FlatButton'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import RaisedButton from 'material-ui/RaisedButton';
+import {MuiThemeProvider, getMuiTheme} from 'material-ui/styles'
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
+import CircularProgress from 'material-ui/CircularProgress';
 import Divider from 'material-ui/Divider'
 import ListItem from '../../components/ListItem'
 import OrderComponent from './OrderComponent'
+import FlexEnd from '../../components/FlexComponents/FlexEnd'
 
-const OrderSummary = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-`
 
 export default class CheckoutCart extends React.Component {
   constructor(props) {
    super(props)
    this.cart=[]
    this.state = {
-     counter: 0,
+     counter: 0
    }
  }
-
+componentWillReceiveProps(nextProps) {
+  if(nextProps.success) {
+    this.props.handleClose()
+  }
+}
  uniqObject(dishes) {
    let seen = {};
    return dishes.filter(function(dish) {
@@ -34,26 +36,40 @@ export default class CheckoutCart extends React.Component {
 
  render() {
    let cart = this.uniqObject(this.props.cart)
+   let bill = 0
+   cart.forEach(item => {
+     bill+= item.dish.price*item.counter
+   })
    return(
      <div>
+      <FlexEnd>
+        {this.props.isRequesting ?  <CircularProgress /> : <div></div>}
+      </FlexEnd>
       <div className="col-xs-12 col-sm-6 col-md-4">
-        {cart.map(item =>
-          <Card style={{margin: '10px 0px'}}>
-              <CardHeader
-                title={item.dish.name}
-                subtitle={item.dish.description}
-                actAsExpander={true}
-              />
-              <CardText>
-                Quantity:
-                <OrderComponent counter={item.counter} addToCart={this.props.addToCart} deleteFromCart={this.props.deleteFromCart} dish={item.dish}/>
-              </CardText>
-            </Card>
+        {cart.map((item, key) =>
+        <Card style={{margin: '10px 0px'}} key={key}>
+            <CardHeader
+              title={item.dish.name}
+              subtitle={item.dish.description}
+              actAsExpander={true}
+            />
+            <CardText>
+              Quantity:
+              <OrderComponent counter={item.counter} addToCart={this.props.addToCart} deleteFromCart={this.props.deleteFromCart} dish={item.dish}/>
+            </CardText>
+          </Card>
         )}
       </div>
         <Divider />
-      <OrderSummary>
-      </OrderSummary>
+      <FlexEnd>
+        Total: {bill}
+      </FlexEnd>
+      <FlexEnd>
+        <MuiThemeProvider >
+          <RaisedButton label="Cancel" onClick={this.props.handleClose}/>
+          <RaisedButton label="Order" onClick={this.props.orderDishes} backgroundColor="#FBC02D"/>
+        </MuiThemeProvider>
+      </FlexEnd>
      </div>
     )
   }

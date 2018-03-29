@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "bluebird": "^3.5.1",
     "csv-express": "^1.2.2",
     "history": "^4.6.3",
     "immutable": "^3.8.2",

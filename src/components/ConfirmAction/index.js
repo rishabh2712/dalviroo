@@ -1,11 +1,17 @@
 import React from 'react';
 import {MuiThemeProvider, getMuiTheme} from 'material-ui/styles'
 import FlatButton from 'material-ui/FlatButton';
-
+import CircularProgress from 'material-ui/CircularProgress';
 
 class ConfirmAction extends React.Component {
 constructor(props) {
   super(props)
+}
+componentWillReceiveProps(nextProps) {
+  if(nextProps.success) {
+    this.props.handleClose()
+    nextProps.fetchDishes()
+  }
 }
 render() {
   return (
@@ -16,6 +22,7 @@ render() {
           display: 'flex',
           justifyContent: 'flex-end'
         }}>
+        {this.props.isRequesting ? <CircularProgress /> : <div></div>}
           <FlatButton
             label="Cancel"
             primary={true}

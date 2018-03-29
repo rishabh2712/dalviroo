@@ -11,7 +11,6 @@ import './bootstrap.css'
 
 
 const AppWrapper = styled.div`
-  background-color: #e8e8e8;
   height: inherit;
 `;
 
@@ -34,8 +33,8 @@ export default class App extends React.Component {
         <Sidebar open = {this.state.open} handleToggle={this.handleToggle} />
           <AppContainer>
             <Switch>
-              <Route exact path="/" component={KitchenReport} />
-              <Route exact path="/dishes" component = {Dishes}/>
+              <Route exact path="/dalviroo" component={KitchenReport} />
+              <Route exact path="/dalviroo/dishes" component = {Dishes}/>
             </Switch>
           </AppContainer>
       </AppWrapper>

@@ -7,6 +7,7 @@ const initialState = {
   requesting: false,
   error: false,
   dishes: [],
+  success: false
 }
 
 export function fetchDishReducer(state = initialState, action) {

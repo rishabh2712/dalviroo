@@ -98,6 +98,7 @@ exports.delete = function(req, res) {
 
 exports.dish_update = function(req, res) {
   Dish.findById(req.params.dishId, function(err, dish) {
+          console.log(req.params)
           if(err) {
               console.log(err)
               if(err.kind === 'ObjectId') {
@@ -109,15 +110,12 @@ exports.dish_update = function(req, res) {
           if(!dish) {
               return res.status(404).send({message: "dish not found with id " + req.params.dishId})
           }
-          if(req.body.hasOwnProperty('quantity_in_progress ?')) {
-            console.log("qip")
-          }
           dish.name = req.body.hasOwnProperty('name') ? req.body.name : dish.name
           dish.predicted = req.body.hasOwnProperty('predicted') ? req.body.predicted : dish.predicted
           dish.created_till_now = req.body.hasOwnProperty('created_till_now') ? req.body.created_till_now : dish.created_till_now
           dish.quantity_in_progress = req.body.hasOwnProperty('quantity_in_progress') ? req.body.quantity_in_progress : dish.quantity_in_progress
           dish.description = req.body.hasOwnProperty('description') ? req.body.description : dish.description
-          dish.price = req.body.price.hasOwnProperty('price') ? req.body.price : dish.price
+          dish.price = req.body.hasOwnProperty('price') ? req.body.price : dish.price
           dish.save(function(err, data){
               if(err) {
                   res.status(500).send({message: "Could not update dish with id " + req.params.dishId})

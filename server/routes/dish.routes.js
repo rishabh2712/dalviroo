@@ -20,6 +20,8 @@ module.exports = function(app) {
     // Delete a dish with dishId
     app.delete('/api/dishes/:dishId', dishes.delete)
 
+      //update after have been completed
     app.put('/api/dishes/:dishId/order_done', dishes.dish_created_till_now)
+
 
 }

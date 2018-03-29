@@ -25,8 +25,8 @@ changeRoute(e) {
             docked={false}
             onRequestChange={this.props.handleToggle}
             >
-             <Link to="/"><MenuItem onClick = {this.props.handleToggle}> Orders </MenuItem></Link>
-             <Link to="/dishes"><MenuItem onClick = {this.props.handleToggle}>Dalviroo Dishes</MenuItem></Link>
+             <Link to="/dalviroo"><MenuItem onClick = {this.props.handleToggle}> Orders </MenuItem></Link>
+             <Link to="/dalviroo/dishes"><MenuItem onClick = {this.props.handleToggle}>Dalviroo Dishes</MenuItem></Link>
           </Drawer>
         </ MuiThemeProvider>
       </div>
