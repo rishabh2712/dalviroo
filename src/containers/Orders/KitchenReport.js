@@ -8,7 +8,7 @@ import {
   TableRowColumn,
 } from 'material-ui/Table'
 import RaisedButton from 'material-ui/RaisedButton';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import {MuiThemeProvider, getMuiTheme} from 'material-ui/styles'
 import styled from 'styled-components'
 
 import {generateReports, subscribeToOrder, subscribeToDone } from './Api'
@@ -38,6 +38,12 @@ componentDidMount() {
 render() {
     return (
       <TableWrapper>
+        <MuiThemeProvider muiTheme={getMuiTheme()}>
+          <RaisedButton onClick={() => generateReports()}
+             backgroundColor="#FBC02D"
+              label="Generate Report"
+           />
+         </MuiThemeProvider>
         <MuiThemeProvider>
           <Table onRowSelection={this.handleRowSelection}
           displayBorder={true}
@@ -48,9 +54,9 @@ render() {
               <TableRow>
                 <TableHeaderColumn>ID</TableHeaderColumn>
                 <TableHeaderColumn>Name</TableHeaderColumn>
-                <TableHeaderColumn>Quantity</TableHeaderColumn>
+                <TableHeaderColumn>Order</TableHeaderColumn>
                 <TableHeaderColumn>Predicted</TableHeaderColumn>
-                <TableHeaderColumn>Quantity</TableHeaderColumn>
+                <TableHeaderColumn>Produced</TableHeaderColumn>
                 <TableHeaderColumn></TableHeaderColumn>
               </TableRow>
             </TableHeader>
@@ -61,11 +67,16 @@ render() {
                     <TableRowColumn scope="row">{key+1}</TableRowColumn>
                     <TableRowColumn>{datum.name}</TableRowColumn>
                     <TableRowColumn>{datum.quantity_in_progress}</TableRowColumn>
-                    <TableRowColumn>{datum.created_till_now}</TableRowColumn>
                     <TableRowColumn>{datum.predicted}</TableRowColumn>
+                    <TableRowColumn>{datum.created_till_now}</TableRowColumn>
                     <MuiThemeProvider>
                       <TableRowColumn>
-                        <RaisedButton label="Done" onClick={() => subscribeToDone({id: datum._id, done: datum.quantity_in_progress})}/>
+                        <MuiThemeProvider muiTheme={getMuiTheme()}>
+                          <RaisedButton onClick={() => subscribeToDone({id: datum._id, done: datum.quantity_in_progress})}
+                             backgroundColor="#FBC02D"
+                              label="Done"
+                           />
+                         </MuiThemeProvider>
                       </TableRowColumn>
                     </MuiThemeProvider>
                   </TableRow>

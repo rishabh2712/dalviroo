@@ -6,7 +6,11 @@ let dish_schema = mongoose.Schema({
     description: String,
     predicted: Number,
     price: Number
-}, {
-    timestamps: true
-});
-module.exports = mongoose.model('Dish', dish_schema);
+})
+
+let order = mongoose.Schema({
+  dish: dish_schema,
+  quantity: {type: Number, required:true},
+  status: {type: String, required: true}
+})
+module.exports = mongoose.model('Order', order);
