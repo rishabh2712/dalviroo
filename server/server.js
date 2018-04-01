@@ -24,9 +24,9 @@ app.use(function(req, res, next) {
 
 require('./routes/dish.routes.js')(app)
 
-// app.use(express.static(path.join(__dirname, '../build')));
+app.use(express.static(path.join(__dirname, '../build')));
 app.get('/dalviroo', function (req, res) {
-  // res.sendFile(path.join(__dirname, '../build', 'index.html'));
+  res.sendFile(path.join(__dirname, '../build', 'index.html'));
 });
 // listen for requests
 app.listen(8000, function(){
@@ -51,19 +51,19 @@ mongoose.connection.once('open', function() {
 io.listen(socketport)
 console.log('Socket listening on port ', socketport)
 
-io.on("connection", socket => {
+io.on("connection", socketport => {
   console.log("New client connected"), setInterval(
-    () => getApiAndEmit(socket),
+    () => getApiAndEmit(socketport),
     1000
   )
-  socket.on("disconnect", () => console.log("Client disconnected"));
+  socketport.on("disconnect", () => console.log("Client disconnected"));
 })
 
-const getApiAndEmit = async socket => {
+const getApiAndEmit = async socketport => {
   try {
     let url1 = url + 'in_order'
     const res = await rp({uri: url1,  json: true})
-    socket.emit("order_in_pipeline", res)
+    socketport.emit("order_in_pipeline", res)
   } catch (error) {
     console.error(`Error: ${error}`);
   }
@@ -72,9 +72,8 @@ const getApiAndEmit = async socket => {
 io.on('connection', (client) => {
   client.on('subscribeToDone', (data) => {
     console.log('client is subscribing to done', data)
-    let uri = url+data.id+'/order_done'
-    let body = JSON.stringify({order_quantity_complete: data.done})
-    rp({uri: uri,  method: 'PUT', body:{order_quantity_complete: data.done}, json:true})
+    let uri = url+data.id+'/order_update'
+    rp({uri: uri,  method: 'PUT', body:{order_id: data.order_id}, json:true})
     .then((res) => console.log(res))
     .catch(function (err) {
       console.log(err)

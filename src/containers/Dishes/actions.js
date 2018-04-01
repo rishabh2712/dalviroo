@@ -74,8 +74,8 @@ export function orderDishes(dishes) {
   return {
     type: ORDER_DISHES,
     promise: Promise.map(dishes, item => {
-      let url = apiUrl +'/'+item.dish._id
-      postApiPromise({quantity_in_progress: item.counter}, url, 'PUT')
+      let url = apiUrl +'/'+item.dish._id+'/order'
+      postApiPromise({quantity: item.counter}, url, 'POST')
     }),
     meta: {
            onSuccess: (result, getState) => {

@@ -65,14 +65,14 @@ render() {
                 return (
                   <TableRow key={key}>
                     <TableRowColumn scope="row">{key+1}</TableRowColumn>
-                    <TableRowColumn>{datum.name}</TableRowColumn>
-                    <TableRowColumn>{datum.quantity_in_progress}</TableRowColumn>
-                    <TableRowColumn>{datum.predicted}</TableRowColumn>
-                    <TableRowColumn>{datum.created_till_now}</TableRowColumn>
+                    <TableRowColumn>{datum.dish.name}</TableRowColumn>
+                    <TableRowColumn>{datum.quantity}</TableRowColumn>
+                    <TableRowColumn>{datum.dish.predicted}</TableRowColumn>
+                    <TableRowColumn>{datum.dish.produced}</TableRowColumn>
                     <MuiThemeProvider>
                       <TableRowColumn>
                         <MuiThemeProvider muiTheme={getMuiTheme()}>
-                          <RaisedButton onClick={() => subscribeToDone({id: datum._id, done: datum.quantity_in_progress})}
+                          <RaisedButton onClick={() => subscribeToDone({id: datum.dish._id, order_id: datum._id})}
                              backgroundColor="#FBC02D"
                               label="Done"
                            />

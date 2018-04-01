@@ -8,5 +8,6 @@ let dish_schema = mongoose.Schema({
     price: Number
 }, {
     timestamps: true
-});
+})
+
 module.exports = mongoose.model('Dish', dish_schema);
