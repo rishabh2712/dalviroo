@@ -23,7 +23,6 @@ function getApiPromise(body, url, method) {
 }
 
 function postApiPromise(body, url, method) {
-  console.log(body)
   var myInit = {
     body: JSON.stringify(body), // must match 'Content-Type' header
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -38,6 +37,7 @@ function postApiPromise(body, url, method) {
     }
   return fetch(url, myInit)
 }
+
 export function fetchDishes() {
   return {
     type: LOAD_DISHES,
@@ -46,27 +46,31 @@ export function fetchDishes() {
 }
 
 export function postDish(body, method, url) {
-  return {
-    type: ADD_DISH,
-    promise: postApiPromise(body, apiUrl+url, method),
-    meta: {
-      onSuccess: (result, getState) => {
-        fetchDishes()
+  return dispatch => {
+    dispatch({
+      type: ADD_DISH,
+      promise: postApiPromise(body, apiUrl+url, method),
+      meta: {
+        onSuccess: (result, getState) => {
+          dispatch(fetchDishes())
+        }
       }
-    }
+    })
   }
 }
 
 export function deleteDish(id) {
   let url = apiUrl+'/'+id
-  return {
-    type: DELETE_DISH,
-    promise: postApiPromise({}, url, 'DELETE'),
-    meta: {
-      onSuccess: (result, getState) => {
-        fetchDishes()
+  return dispatch => {
+    dispatch({
+      type: DELETE_DISH,
+      promise: postApiPromise({}, url, 'DELETE'),
+      meta: {
+        onSuccess: (result, getState) => {
+        dispatch(fetchDishes())
+        }
       }
-    }
+    })
   }
 }
 

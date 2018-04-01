@@ -6,16 +6,13 @@ import thunk from 'redux-thunk';
 import { logger } from 'redux-logger'
 
 export default function configureStore(initialState = {}, history) {
-  const middlewares = (
-      thunk,
-      reduxPackMiddleware
-    )
 
-    const store = createStore(
-      createReducer(),
-      initialState,
-      applyMiddleware(middlewares)
-    );
+  const store = createStore(
+    createReducer(),
+    initialState,
+    compose(applyMiddleware(thunk,
+    reduxPackMiddleware))
+  )
 
     return store
 }
